@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Daftar Resep</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openAddResepModal()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let resep of resepList">
+      <ion-label>
+        <h2>{{ resep.nama_resep }}</h2>
+        <p>Langkah-langkah: <br> {{ resep.langkah_resep }}</p>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button (click)="openEditResepModal(resep)">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" (click)="deleteResep(resep.id_resep)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <!-- Modal for Adding and Editing Resep -->
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title *ngIf="!selectedResep">Tambah Resep</ion-title>
+          <ion-title *ngIf="selectedResep">Edit Resep</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeModal()">Tutup</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <ion-item>
+          <ion-label position="stacked">Nama Resep</ion-label>
+          <ion-input [(ngModel)]="namaResep"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Langkah Pembuatan</ion-label>
+          <ion-textarea [(ngModel)]="langkahResep"></ion-textarea>
+        </ion-item>
+
+        <ion-button expand="block" (click)="saveResep()">
+          {{ selectedResep ? 'Simpan Perubahan' : 'Tambah Resep' }}
+        </ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
